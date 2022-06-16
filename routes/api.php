@@ -55,7 +55,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::put('/product/{id}', [\App\Http\Controllers\API\ProductController::class, 'update']);
     Route::delete('/product/{id}', [\App\Http\Controllers\API\ProductController::class, 'delete']);
 
-
+    Route::get('/permission', [\App\Http\Controllers\API\PermissionController::class, 'index']);
+    Route::get('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'detail']);
+    Route::post('/permission', [\App\Http\Controllers\API\PermissionController::class, 'store']);
+    Route::put('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'update']);
+    Route::delete('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'delete']);
 
     Route::get('/clusters', [ClusterController::class, 'index']);
     Route::get('/clusters/{id}', [ClusterController::class, 'detail']);
