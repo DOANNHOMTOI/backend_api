@@ -49,6 +49,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::put('/voucher/{id}', [\App\Http\Controllers\API\VoucherController::class, 'update']);
     Route::delete('/voucher/{id}', [\App\Http\Controllers\API\VoucherController::class, 'delete']);
 
+//    Route::get('/voucher', [\App\Http\Controllers\API\VoucherController::class, 'index']);
+//    Route::get('/voucher/{id}', [\App\Http\Controllers\API\VoucherController::class, 'detail']);
+    Route::post('/product', [\App\Http\Controllers\API\ProductController::class, 'store']);
+//    Route::put('/voucher/{id}', [\App\Http\Controllers\API\VoucherController::class, 'update']);
+//    Route::delete('/voucher/{id}', [\App\Http\Controllers\API\VoucherController::class, 'delete']);
+
 
 
     Route::get('/clusters', [ClusterController::class, 'index']);
