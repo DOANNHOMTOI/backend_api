@@ -13,7 +13,7 @@ class VoucherController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(Voucher::all(),'success');
+        return $this->sendResponse(Voucher::paginate(env('APP_LIMIT_PAGE')),'success');
     }
     public function store(Request $request)
     {

@@ -16,7 +16,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(Product::all(), 'success');
+        return $this->sendResponse(Product::paginate(env('APP_LIMIT_PAGE')), 'success');
     }
 
     public function store(Request $request)

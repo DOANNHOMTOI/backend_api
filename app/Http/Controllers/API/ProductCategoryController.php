@@ -12,7 +12,7 @@ class ProductCategoryController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(ProductCategory::all(),'success');
+        return $this->sendResponse(ProductCategory::paginate(env('APP_LIMIT_PAGE')),'success');
     }
     public function store(Request $request)
     {

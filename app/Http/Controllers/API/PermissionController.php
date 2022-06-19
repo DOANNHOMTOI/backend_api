@@ -13,7 +13,7 @@ class PermissionController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(Permission::all(),'success');
+        return $this->sendResponse(Permission::paginate(env('APP_LIMIT_PAGE')),'success');
     }
     public function store(Request $request)
     {
