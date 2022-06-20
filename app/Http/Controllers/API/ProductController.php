@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\ProductCategory;
 use App\ProductColor;
 use App\ProductImage;
 use App\ProductSize;
@@ -16,7 +17,12 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(Product::paginate(env('APP_LIMIT_PAGE')), 'success');
+        $list = Product::paginate(env('APP_LIMIT_PAGE'))->toArray();
+        foreach ($list['data'] as $key=>$value){
+            $value['category'] = ProductCategory::where('id',$value['category_id'])->first();
+            $list['data'][$key] = $value;
+        }
+        return $list;
     }
 
     public function store(Request $request)
