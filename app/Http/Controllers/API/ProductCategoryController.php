@@ -12,7 +12,8 @@ class ProductCategoryController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(ProductCategory::paginate(env('APP_LIMIT_PAGE')),'success');
+        $limit = $request->page = -1 ? 1000000 : env('APP_LIMIT_PAGE');
+        return $this->sendResponse(ProductCategory::paginate($limit),'success');
     }
     public function store(Request $request)
     {
