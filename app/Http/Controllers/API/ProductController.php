@@ -22,7 +22,7 @@ class ProductController extends Controller
             $value['category'] = ProductCategory::where('id',$value['category_id'])->first();
             $list['data'][$key] = $value;
         }
-        return $list;
+        return $this->sendResponse($list, 'success');
     }
 
     public function store(Request $request)
