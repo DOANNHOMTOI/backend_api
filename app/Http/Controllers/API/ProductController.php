@@ -17,7 +17,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $list = Product::paginate(env('APP_LIMIT_PAGE'))->toArray();
+        $list = Product::orderBy('created_at','DESC')->paginate(env('APP_LIMIT_PAGE'))->toArray();
         foreach ($list['data'] as $key=>$value){
             $value['category'] = ProductCategory::where('id',$value['category_id'])->first();
             $list['data'][$key] = $value;
