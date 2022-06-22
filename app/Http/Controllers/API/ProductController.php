@@ -33,11 +33,8 @@ class ProductController extends Controller
             'qty' => 'required',
             'sku' => 'required',
             'price' => 'required',
-            'excerpt' => 'required',
-            'description' => 'required',
             'image' => 'required',
             'category_id' => 'required',
-            'sizes' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -45,11 +42,11 @@ class ProductController extends Controller
         }
         $issetSKU = Product::where('sku', strtoupper($request->sku))->first();
         if ($issetSKU != null) {
-            return $this->sendError('SKU đã tổn tại', 'error');
+            return $this->sendError('SKU đã tổn tại', 'error',200);
         }
         $issetName = Product::where('name', $request->name)->first();
         if ($issetName != null) {
-            return $this->sendError('Tên sản phẩm đã tổn tại', 'error');
+            return $this->sendError('Tên sản phẩm đã tổn tại', 'error',200);
         }
 
         DB::beginTransaction();
