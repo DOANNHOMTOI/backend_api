@@ -125,11 +125,9 @@ class ProductController extends Controller
             'qty' => 'required',
             'sku' => 'required',
             'price' => 'required',
-            'excerpt' => 'required',
-            'description' => 'required',
-            'image' => 'required',
             'category_id' => 'required',
             'sizes' => 'required',
+            'colors' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -155,7 +153,9 @@ class ProductController extends Controller
             $product->excerpt = $request->excerpt;
             $product->description = $request->description;
             $product->body = $request->body;
-            $product->image = $request->image;
+            if ($request->image != null || $request->image != ''){
+                $product->image = $request->image;
+            }
             $product->category_id = $request->category_id;
             $product->is_active = $request->is_active;
             $saveProduct = $product->save();
@@ -180,13 +180,15 @@ class ProductController extends Controller
                     $color->save();
                 }
                 // IMAGE
-                ProductImage::where('product_id',$id)->delete();
-                $listImage = explode(",", $request->images);
-                foreach ($listImage as $k => $value) {
-                    $color = new ProductImage();
-                    $color->product_id = $product->id;
-                    $color->image = $value;
-                    $color->save();
+                if ($request->images != null || $request->images != ''){
+                    ProductImage::where('product_id',$id)->delete();
+                    $listImage = explode(",", $request->images);
+                    foreach ($listImage as $k => $value) {
+                        $color = new ProductImage();
+                        $color->product_id = $product->id;
+                        $color->image = $value;
+                        $color->save();
+                    }
                 }
             }
             DB::commit();
