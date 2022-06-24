@@ -13,12 +13,13 @@ class VoucherController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(Voucher::paginate(env('APP_LIMIT_PAGE')),'success');
+        $limit = $request->page = -1 ? 1000000 : env('APP_LIMIT_PAGE');
+        return $this->sendResponse(Voucher::orderBy('created_at','DESC')->paginate($limit),'success');
     }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'code' => 'required',
+            'code' => 'required|min:6|max:6',
             'title' => 'required',
             'percent_value' => 'required'
         ]);
@@ -33,6 +34,7 @@ class VoucherController extends Controller
         $cluster->title = trim($request->title);
         $cluster->code = trim($request->code);
         $cluster->percent_value = (int)$request->percent_value;
+        $cluster->is_active = 1;
         $cluster->save();
 
         return $this->sendResponse($cluster, 'success');
