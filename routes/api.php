@@ -92,4 +92,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/wp/sizes', [WPSizeController::class, 'store']);
     Route::delete('/wp/sizes/{id}', [WPSizeController::class, 'delete']);
 });
+
+Route::group(['prefix' => 'web'], function () {
+    Route::get('/product-category', [\App\Http\Controllers\API\ProductCategoryController::class, 'index']);
+});
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
