@@ -95,5 +95,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 Route::group(['prefix' => 'web'], function () {
     Route::get('/product-category', [\App\Http\Controllers\API\ProductCategoryController::class, 'index']);
+    Route::get('/productFilter', [\App\Http\Controllers\API\ProductController::class, 'productFilter']);
+    Route::get('/productDetail/{id}', [\App\Http\Controllers\API\ProductController::class, 'productDetail']);
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);

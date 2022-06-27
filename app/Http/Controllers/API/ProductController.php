@@ -17,9 +17,9 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $list = Product::orderBy('created_at','DESC')->paginate(env('APP_LIMIT_PAGE'))->toArray();
-        foreach ($list['data'] as $key=>$value){
-            $value['category'] = ProductCategory::where('id',$value['category_id'])->first();
+        $list = Product::orderBy('created_at', 'DESC')->paginate(env('APP_LIMIT_PAGE'))->toArray();
+        foreach ($list['data'] as $key => $value) {
+            $value['category'] = ProductCategory::where('id', $value['category_id'])->first();
             $list['data'][$key] = $value;
         }
         return $this->sendResponse($list, 'success');
@@ -42,11 +42,11 @@ class ProductController extends Controller
         }
         $issetSKU = Product::where('sku', strtoupper($request->sku))->first();
         if ($issetSKU != null) {
-            return $this->sendError('SKU đã tổn tại', 'error',200);
+            return $this->sendError('SKU đã tổn tại', 'error', 200);
         }
         $issetName = Product::where('name', $request->name)->first();
         if ($issetName != null) {
-            return $this->sendError('Tên sản phẩm đã tổn tại', 'error',200);
+            return $this->sendError('Tên sản phẩm đã tổn tại', 'error', 200);
         }
 
         DB::beginTransaction();
@@ -103,18 +103,18 @@ class ProductController extends Controller
     {
         $object = new \stdClass();
         $object->infor = Product::find($id);
-        $object->colors = ProductColor::where('product_id',$id)->get();
-        $object->images = ProductImage::where('product_id',$id)->get();
-        $object->sizes = ProductSize::where('product_id',$id)->get();
+        $object->colors = ProductColor::where('product_id', $id)->get();
+        $object->images = ProductImage::where('product_id', $id)->get();
+        $object->sizes = ProductSize::where('product_id', $id)->get();
         return $this->sendResponse($object, 'success');
     }
 
     public function delete($id)
     {
         Product::find($id)->delete();
-        ProductColor::where('product_id',$id)->delete();
-        ProductSize::where('product_id',$id)->delete();
-        ProductImage::where('product_id',$id)->delete();
+        ProductColor::where('product_id', $id)->delete();
+        ProductSize::where('product_id', $id)->delete();
+        ProductImage::where('product_id', $id)->delete();
         return $this->sendResponse($id, 'success');
     }
 
@@ -153,7 +153,7 @@ class ProductController extends Controller
             $product->excerpt = $request->excerpt;
             $product->description = $request->description;
             $product->body = $request->body;
-            if ($request->image != null || $request->image != ''){
+            if ($request->image != null || $request->image != '') {
                 $product->image = $request->image;
             }
             $product->category_id = $request->category_id;
@@ -161,7 +161,7 @@ class ProductController extends Controller
             $saveProduct = $product->save();
             if ($saveProduct) {
                 // xóa hết data cũ
-                ProductColor::where('product_id',$id)->delete();
+                ProductColor::where('product_id', $id)->delete();
 
                 $listColor = explode(",", $request->colors);
                 foreach ($listColor as $k => $value) {
@@ -171,7 +171,7 @@ class ProductController extends Controller
                     $color->save();
                 }
                 // SIZE
-                ProductSize::where('product_id',$id)->delete();
+                ProductSize::where('product_id', $id)->delete();
                 $listSize = explode(",", $request->sizes);
                 foreach ($listSize as $k => $value) {
                     $color = new ProductSize();
@@ -180,8 +180,8 @@ class ProductController extends Controller
                     $color->save();
                 }
                 // IMAGE
-                if ($request->images != null || $request->images != ''){
-                    ProductImage::where('product_id',$id)->delete();
+                if ($request->images != null || $request->images != '') {
+                    ProductImage::where('product_id', $id)->delete();
                     $listImage = explode(",", $request->images);
                     foreach ($listImage as $k => $value) {
                         $color = new ProductImage();
@@ -199,5 +199,46 @@ class ProductController extends Controller
             // something went wrong
             return $this->sendError('Error !', 'error');
         }
+    }
+
+    public function productFilter(Request $request)
+    {
+        $listProduct = Product::orderBy('created_at', 'DESC');
+        if ($request->category_id != null) {
+            $listProduct->where('category_id', (int)$request->category_id);
+        }
+        if ($request->minPrice != null && $request->maxPrice != null) {
+            $listProduct->whereBetween('price', [(int)$request->minPrice,(int)$request->maxPrice]);
+        }
+        $listProduct = $listProduct->get();
+        $categories = [];
+        foreach (ProductCategory::all() as $value) {
+            $value['numProduct'] = Product::where('category_id', $value->id)->count();
+            array_push($categories, $value);
+        }
+        $listNew = $listProduct = Product::orderBy('created_at', 'DESC')->take(5)->get();
+        $data = [
+            'products' => $listProduct,
+            'categories' => $categories,
+            'product_new' => $listNew,
+        ];
+
+        return $this->sendResponse($data, 'success');
+    }
+    public function productDetail($id){
+        $product = Product::find($id);
+        $listImage = ProductImage::where('product_id',$id)->get();
+        $listColor = ProductColor::where('product_id',$id)->get();
+        $listSize = ProductSize::where('product_id',$id)->get();
+        $listOther = Product::where('category_id',$product->category_id)->where('id','!=',$id)->get();
+        $data = [
+            'detail' => $product,
+            'images' => $listImage,
+            'colors' => $listColor,
+            'sizes' => $listSize,
+            'other' => $listOther,
+        ];
+
+        return $this->sendResponse($data, 'success');
     }
 }
