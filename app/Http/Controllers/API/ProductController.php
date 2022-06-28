@@ -204,21 +204,21 @@ class ProductController extends Controller
     public function productFilter(Request $request)
     {
         $listProduct = Product::orderBy('created_at', 'DESC');
-        if ($request->category_id != null) {
-            $listProduct->where('category_id', (int)$request->category_id);
+        if ($request->get('category_id') != null) {
+            $listProduct->where('category_id', (int)$request->get('category_id'));
         }
         if ($request->minPrice != null && $request->maxPrice != null) {
             $listProduct->whereBetween('price', [(int)$request->minPrice,(int)$request->maxPrice]);
         }
-        $listProduct = $listProduct->get();
+        $products = $listProduct->get();
         $categories = [];
         foreach (ProductCategory::all() as $value) {
             $value['numProduct'] = Product::where('category_id', $value->id)->count();
             array_push($categories, $value);
         }
-        $listNew = $listProduct = Product::orderBy('created_at', 'DESC')->take(5)->get();
+        $listNew = Product::orderBy('created_at', 'DESC')->take(5)->get();
         $data = [
-            'products' => $listProduct,
+            'products' => $products,
             'categories' => $categories,
             'product_new' => $listNew,
         ];
