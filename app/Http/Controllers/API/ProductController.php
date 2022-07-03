@@ -241,4 +241,8 @@ class ProductController extends Controller
 
         return $this->sendResponse($data, 'success');
     }
+    public function productNews(){
+        $data = Product::orderBy('created_at','DESC')->limit(8)->get();
+        return $this->sendResponse($data, 'success');
+    }
 }
