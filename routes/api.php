@@ -60,37 +60,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/permission', [\App\Http\Controllers\API\PermissionController::class, 'store']);
     Route::put('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'update']);
     Route::delete('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'delete']);
-
-    Route::get('/clusters', [ClusterController::class, 'index']);
-    Route::get('/clusters/{id}', [ClusterController::class, 'detail']);
-    Route::post('/clusters', [ClusterController::class, 'store']);
-    Route::delete('/clusters/{id}', [ClusterController::class, 'delete']);
-
-    Route::get('/regions', [RegionController::class, 'index']);
-    Route::get('/regions/{id}', [RegionController::class, 'detail']);
-    Route::post('/regions', [RegionController::class, 'store']);
-    Route::delete('/regions/{id}', [RegionController::class, 'delete']);
-
-    // == WP
-    Route::get('/wp/regions', [WPRegionController::class, 'index']);
-    Route::get('/wp/regions/{id}', [WPRegionController::class, 'detail']);
-    Route::post('/wp/regions', [WPRegionController::class, 'store']);
-    Route::delete('/wp/regions/{id}', [WPRegionController::class, 'delete']);
-
-    Route::get('/wp/servers', [WPServerController::class, 'index']);
-    Route::get('/wp/servers/{id}', [WPServerController::class, 'detail']);
-    Route::post('/wp/servers', [WPServerController::class, 'store']);
-    Route::delete('/wp/servers/{id}', [WPServerController::class, 'delete']);
-
-    Route::get('/wp/clusters', [WPClusterController::class, 'index']);
-    Route::get('/wp/clusters/{id}', [WPClusterController::class, 'detail']);
-    Route::post('/wp/clusters', [WPClusterController::class, 'store']);
-    Route::delete('/wp/clusters/{id}', [WPClusterController::class, 'delete']);
-
-    Route::get('/wp/sizes', [WPSizeController::class, 'index']);
-    Route::get('/wp/sizes/{id}', [WPSizeController::class, 'detail']);
-    Route::post('/wp/sizes', [WPSizeController::class, 'store']);
-    Route::delete('/wp/sizes/{id}', [WPSizeController::class, 'delete']);
 });
 
 Route::group(['prefix' => 'web'], function () {
