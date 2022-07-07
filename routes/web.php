@@ -21,11 +21,4 @@ Route::get('/', function () {
 Route::get('/test', function () {
     return view('welcome');
 });
-//Route::get('api/v1/clusters', [ClusterController::class, 'index']);
-//Route::get('api/v1/clusters/{id}', [ClusterController::class, 'detail']);
-//Route::post('api/v1/clusters', [ClusterController::class, 'store']);
-//
-//Route::get('api/v1/regions', [RegionController::class, 'index']);
-//Route::get('api/v1/regions/{id}', [RegionController::class, 'detail']);
-//Route::post('api/v1/regions', [RegionController::class, 'store']);
 
