@@ -20,6 +20,8 @@ class VoucherController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'code' => 'required|min:6|max:6',
+            'start_time' => 'required',
+            'end_time' => 'required',
             'title' => 'required',
             'percent_value' => 'required'
         ]);
@@ -32,6 +34,8 @@ class VoucherController extends Controller
         }
         $cluster = new Voucher();
         $cluster->title = trim($request->title);
+        $cluster->start_time = $request->start_time;
+        $cluster->end_time = $request->end_time;
         $cluster->code = trim($request->code);
         $cluster->percent_value = (int)$request->percent_value;
         $cluster->is_active = 1;
@@ -49,6 +53,8 @@ class VoucherController extends Controller
     public function update(Request $request,$id){
         $cluster = Voucher::find($id);
         $cluster->title = trim($request->title);
+        $cluster->start_time = $request->start_time;
+        $cluster->end_time = $request->end_time;
         $cluster->percent_value = (int)$request->percent_value;
         $cluster->is_active = $request->is_active;
         $cluster->save();
