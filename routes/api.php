@@ -68,6 +68,7 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/productNews', [\App\Http\Controllers\API\ProductController::class, 'productNews']);
     Route::get('/productDetail/{id}', [\App\Http\Controllers\API\ProductController::class, 'productDetail']);
     Route::post('/order', [\App\Http\Controllers\API\OrderController::class, 'store']);
+    Route::post('/user/register', [\App\Http\Controllers\API\CustomerController::class, 'store']);
     Route::get('/checkVoucher/{code}', [\App\Http\Controllers\API\VoucherController::class, 'checkVoucher']);
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
