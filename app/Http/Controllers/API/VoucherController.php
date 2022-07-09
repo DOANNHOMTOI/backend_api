@@ -50,6 +50,9 @@ class VoucherController extends Controller
         Voucher::find($id)->delete();
         return $this->sendResponse($id, 'success');
     }
+    public function checkVoucher($code){
+        return $this->sendResponse(Voucher::where('code',$code)->first(), 'success');
+    }
     public function update(Request $request,$id){
         $cluster = Voucher::find($id);
         $cluster->title = trim($request->title);
