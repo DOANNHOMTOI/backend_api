@@ -18,6 +18,10 @@ class CustomerController extends Controller
     }
     public function store(Request $request)
     {
+        $customer = Customer::where('phone',$request->phone)->first();
+        if ($customer != null){
+            return $this->sendError('Số điện thoại đã đăng ký tài khoản khác','Số điện thoại đã đăng ký tài khoản khác');
+        }
         $customer = new Customer();
         $customer->name = trim($request->name);
         $customer->phone = $request->phone;
@@ -26,6 +30,14 @@ class CustomerController extends Controller
         $customer->password = $request->password;
         $saveCustomer = $customer->save();
 
+        return $this->sendResponse($customer, 'success');
+    }
+    public function login(Request $request)
+    {
+        $customer = Customer::where('phone',$request->phone)->where('password',$request->password)->where('status',1)->where('is_register',1)->first();
+//        if ($customer != null){
+//            return $this->sendError('Thông tin đăng nhập không đúng !','Thông tin đăng nhập không đúng !');
+//        }
         return $this->sendResponse($customer, 'success');
     }
     public function detail($id){
