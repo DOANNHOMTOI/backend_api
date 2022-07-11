@@ -250,4 +250,8 @@ class ProductController extends Controller
         $data = Product::orderBy('created_at','DESC')->limit(8)->get();
         return $this->sendResponse($data, 'success');
     }
+    public function productCare(Request $request){
+        $data = Product::whereIn('category_id',explode(",",$request->categories))->limit(8)->get();
+        return $this->sendResponse($data, 'success');
+    }
 }
