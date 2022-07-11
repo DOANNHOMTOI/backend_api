@@ -18,7 +18,7 @@ class CustomerController extends Controller
     }
     public function store(Request $request)
     {
-        $customer = Customer::where('phone',$request->phone)->first();
+        $customer = Customer::where('phone',$request->phone)->where('is_register',1)->first();
         if ($customer != null){
             return $this->sendError('Số điện thoại đã đăng ký tài khoản khác','Số điện thoại đã đăng ký tài khoản khác');
         }

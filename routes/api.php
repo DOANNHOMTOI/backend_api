@@ -60,6 +60,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/permission', [\App\Http\Controllers\API\PermissionController::class, 'store']);
     Route::put('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'update']);
     Route::delete('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'delete']);
+
+    Route::get('/customer', [\App\Http\Controllers\API\CustomerController::class, 'index']);
+
+    Route::get('/order', [\App\Http\Controllers\API\OrderController::class, 'index']);
+    Route::get('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'detail']);
+    Route::put('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'update']);
 });
 
 Route::group(['prefix' => 'web'], function () {
