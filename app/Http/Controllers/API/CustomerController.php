@@ -28,6 +28,8 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->address = $request->address;
         $customer->password = $request->password;
+        $customer->is_register = 1;
+        $customer->status = 1;
         $saveCustomer = $customer->save();
 
         return $this->sendResponse($customer, 'success');
