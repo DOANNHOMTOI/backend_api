@@ -21,7 +21,15 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        $list = Order::orderBy('created_at', 'DESC')->paginate(env('APP_LIMIT_PAGE'))->toArray();
+        $list = Order::orderBy('created_at', 'DESC');
+        if ($request->sku != null){
+            $list = $list->where('sku','like','%'.strtolower($request->sku).'%');
+        }
+        if ($request->phone != null){
+            $phones = Customer::where('phone','like','%'. $request->phone .'%')->pluck('id');
+            $list = $list->whereIn('customer_id', $phones);
+        }
+        $list = $list->paginate(env('APP_LIMIT_PAGE'))->toArray();
         return $this->sendResponse($list, 'success');
     }
 

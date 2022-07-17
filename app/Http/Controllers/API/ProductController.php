@@ -17,7 +17,14 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $list = Product::orderBy('created_at', 'DESC')->paginate(env('APP_LIMIT_PAGE'))->toArray();
+        $list = Product::orderBy('created_at', 'DESC');
+        if ($request->sku != null){
+            $list = $list->where('sku','like','%'.strtolower($request->sku).'%');
+        }
+        if ($request->name != null){
+            $list = $list->where('name', 'like','%'.$request->get('name').'%');
+        }
+        $list = $list->paginate(env('APP_LIMIT_PAGE'))->toArray();
         foreach ($list['data'] as $key => $value) {
             $value['category'] = ProductCategory::where('id', $value['category_id'])->first();
             $list['data'][$key] = $value;

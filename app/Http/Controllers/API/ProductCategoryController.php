@@ -13,7 +13,7 @@ class ProductCategoryController extends Controller
     public function index(Request $request)
     {
         $limit = $request->page = -1 ? 1000000 : env('APP_LIMIT_PAGE');
-        return $this->sendResponse(ProductCategory::orderBy('created_at','DESC')->paginate($limit),'success');
+        return $this->sendResponse(ProductCategory::orderBy('position','ASC')->paginate($limit),'success');
     }
     public function store(Request $request)
     {
@@ -26,6 +26,7 @@ class ProductCategoryController extends Controller
         }
         $cluster = new ProductCategory();
         $cluster->name = trim($request->name);
+        $cluster->position = $request->position;
         $cluster->save();
 
         return $this->sendResponse($cluster, 'success');
@@ -41,6 +42,7 @@ class ProductCategoryController extends Controller
         $cluster = ProductCategory::find($id);
         $cluster->name = trim($request->name);
         $cluster->is_active = $request->is_active;
+        $cluster->position = $request->position;
         $cluster->save();
         return $this->sendResponse($cluster, 'success');
     }

@@ -16,32 +16,32 @@ class CustomerController extends Controller
         $limit = $request->page = -1 ? 1000000 : env('APP_LIMIT_PAGE');
         return $this->sendResponse(Customer::orderBy('created_at','DESC')->paginate($limit),'success');
     }
-    public function store(Request $request)
-    {
-        $customer = Customer::where('phone',$request->phone)->where('is_register',1)->first();
-        if ($customer != null){
-            return $this->sendError('Số điện thoại đã đăng ký tài khoản khác','Số điện thoại đã đăng ký tài khoản khác');
-        }
-        $customer = new Customer();
-        $customer->name = trim($request->name);
-        $customer->phone = $request->phone;
-        $customer->email = $request->email;
-        $customer->address = $request->address;
-        $customer->password = $request->password;
-        $customer->is_register = 1;
-        $customer->status = 1;
-        $saveCustomer = $customer->save();
-
-        return $this->sendResponse($customer, 'success');
-    }
-    public function login(Request $request)
-    {
-        $customer = Customer::where('phone',$request->phone)->where('password',$request->password)->where('status',1)->where('is_register',1)->first();
+//    public function store(Request $request)
+//    {
+//        $customer = Customer::where('phone',$request->phone)->where('is_register',1)->first();
 //        if ($customer != null){
-//            return $this->sendError('Thông tin đăng nhập không đúng !','Thông tin đăng nhập không đúng !');
+//            return $this->sendError('Số điện thoại đã đăng ký tài khoản khác','Số điện thoại đã đăng ký tài khoản khác');
 //        }
-        return $this->sendResponse($customer, 'success');
-    }
+//        $customer = new Customer();
+//        $customer->name = trim($request->name);
+//        $customer->phone = $request->phone;
+//        $customer->email = $request->email;
+//        $customer->address = $request->address;
+//        $customer->password = $request->password;
+//        $customer->is_register = 1;
+//        $customer->status = 1;
+//        $saveCustomer = $customer->save();
+//
+//        return $this->sendResponse($customer, 'success');
+//    }
+//    public function login(Request $request)
+//    {
+//        $customer = Customer::where('phone',$request->phone)->where('password',$request->password)->where('status',1)->where('is_register',1)->first();
+////        if ($customer != null){
+////            return $this->sendError('Thông tin đăng nhập không đúng !','Thông tin đăng nhập không đúng !');
+////        }
+//        return $this->sendResponse($customer, 'success');
+//    }
     public function detail($id){
         return $this->sendResponse(Customer::find($id), 'success');
     }

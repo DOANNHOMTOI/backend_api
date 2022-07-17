@@ -63,6 +63,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::get('/customer', [\App\Http\Controllers\API\CustomerController::class, 'index']);
 
+    Route::get('/guest', [\App\Http\Controllers\API\GuestController::class, 'index']);
+
+    Route::get('/rating', [\App\Http\Controllers\API\RatingController::class, 'index']);
+    Route::put('/rating/{id}', [\App\Http\Controllers\API\RatingController::class, 'update']);
+
+
     Route::get('/order', [\App\Http\Controllers\API\OrderController::class, 'index']);
     Route::get('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'detail']);
     Route::put('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'update']);
@@ -75,8 +81,11 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/productCare', [\App\Http\Controllers\API\ProductController::class, 'productCare']);
     Route::get('/productDetail/{id}', [\App\Http\Controllers\API\ProductController::class, 'productDetail']);
     Route::post('/order', [\App\Http\Controllers\API\OrderController::class, 'store']);
-    Route::post('/user/register', [\App\Http\Controllers\API\CustomerController::class, 'store']);
-    Route::post('/user/login', [\App\Http\Controllers\API\CustomerController::class, 'login']);
+    Route::post('/user/register', [\App\Http\Controllers\API\GuestController::class, 'store']);
+    Route::post('/user/login', [\App\Http\Controllers\API\GuestController::class, 'login']);
     Route::get('/checkVoucher/{code}', [\App\Http\Controllers\API\VoucherController::class, 'checkVoucher']);
+
+    Route::post('/rating/create', [\App\Http\Controllers\API\RatingController::class, 'store']);
+    Route::get('/rating/getByProduct', [\App\Http\Controllers\API\RatingController::class, 'getByProduct']);
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
