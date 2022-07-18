@@ -79,6 +79,11 @@ class OrderController extends Controller
                 $order->voucher_id = $request->voucher_id;
                 $order->note = $request->note;
                 $order->save();
+                foreach (json_decode($request->products) as $k=>$value){
+                    $pr = Product::find($value->product->id);
+                    $pr->buyer = $pr->buyer + $value->qty;
+                    $pr->save();
+                }
             }
             DB::commit();
             return $this->sendResponse($customer, 'success');

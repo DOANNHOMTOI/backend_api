@@ -72,6 +72,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/order', [\App\Http\Controllers\API\OrderController::class, 'index']);
     Route::get('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'detail']);
     Route::put('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'update']);
+
+    Route::get('/dash', [\App\Http\Controllers\API\DashController::class, 'index']);
 });
 
 Route::group(['prefix' => 'web'], function () {
