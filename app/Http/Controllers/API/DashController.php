@@ -22,8 +22,8 @@ class DashController extends Controller
         $datas['total']['categories'] = ProductCategory::count();
 
 
-        $datas['recent']['order'] = Order::orderBy('created_at','DESC')->take(5)->get();
-        $datas['recent']['product'] = Order::orderBy('created_at','DESC')->take(5)->get();
+        $datas['recent']['don_gan_day'] = Order::orderBy('created_at','DESC')->take(5)->get();
+        $datas['recent']['sp_ban_chay'] = Product::orderBy('buyer','DESC')->take(5)->get();
         return $this->sendResponse($datas,'success');
     }
 }
