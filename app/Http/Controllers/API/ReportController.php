@@ -56,4 +56,33 @@ class ReportController extends Controller
         }
         return $this->sendResponse($datas,'success');
     }
+    public function guest(Request $request)
+    {
+
+        $list = Guest::orderBy('created_at', 'DESC');
+        if ($request->start_time != null && $request->end_time != null){
+            $start = new Carbon(date('Y-m-d H:i:s', $request->start_time));
+            $end = new Carbon(date('Y-m-d H:i:s', $request->end_time));
+            $list = $list->where('created_at', '>=', $start)
+                ->where('created_at', '<=', $end);
+        }
+        if ($request->status != null){
+            $list = $list->where('status', (int)$request->status);
+        }
+        $list = $list->get()->toArray();
+
+        $datas = [];
+        $datas['total_guest'] = count($list);
+        $datas['ACTIVE'] = 0;
+        $datas['DEACTIVE'] = 0;
+        foreach ($list as $k => $value) {
+            if ($value['status'] == '1'){
+                $datas['ACTIVE'] ++;
+            }
+            if ($value['status'] == '0'){
+                $datas['DEACTIVE'] ++;
+            }
+        }
+        return $this->sendResponse($datas,'success');
+    }
 }

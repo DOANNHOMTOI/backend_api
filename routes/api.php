@@ -73,9 +73,16 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'detail']);
     Route::put('/order/{id}', [\App\Http\Controllers\API\OrderController::class, 'update']);
 
+    Route::get('/banner', [\App\Http\Controllers\API\BannerController::class, 'index']);
+    Route::post('/banner', [\App\Http\Controllers\API\BannerController::class, 'store']);
+    Route::get('/banner/{id}', [\App\Http\Controllers\API\BannerController::class, 'detail']);
+    Route::put('/banner/{id}', [\App\Http\Controllers\API\BannerController::class, 'update']);
+
     Route::get('/dash', [\App\Http\Controllers\API\DashController::class, 'index']);
 
     Route::get('/report/order', [\App\Http\Controllers\API\ReportController::class, 'order']);
+
+    Route::get('/report/guest', [\App\Http\Controllers\API\ReportController::class, 'guest']);
 });
 
 Route::group(['prefix' => 'web'], function () {
