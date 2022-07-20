@@ -16,6 +16,11 @@ class BannerController extends Controller
         $limit = $request->page = -1 ? 1000000 : env('APP_LIMIT_PAGE');
         return $this->sendResponse(Banner::orderBy('created_at','DESC')->paginate($limit),'success');
     }
+
+    public function getTopBanner(Request $request)
+    {
+        return $this->sendResponse(Banner::orderBy('created_at','DESC')->take(3)->get(),'success');
+    }
     public function store(Request $request)
     {
         $banner = new Banner();

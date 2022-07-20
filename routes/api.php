@@ -83,6 +83,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/report/order', [\App\Http\Controllers\API\ReportController::class, 'order']);
 
     Route::get('/report/guest', [\App\Http\Controllers\API\ReportController::class, 'guest']);
+
+    Route::get('/partner', [\App\Http\Controllers\API\PartnerController::class, 'index']);
+    Route::get('/partner/{id}', [\App\Http\Controllers\API\PartnerController::class, 'detail']);
+    Route::post('/partner', [\App\Http\Controllers\API\PartnerController::class, 'store']);
+    Route::put('/partner/{id}', [\App\Http\Controllers\API\PartnerController::class, 'update']);
+    Route::delete('/partner/{id}', [\App\Http\Controllers\API\PartnerController::class, 'delete']);
 });
 
 Route::group(['prefix' => 'web'], function () {
@@ -98,5 +104,7 @@ Route::group(['prefix' => 'web'], function () {
 
     Route::post('/rating/create', [\App\Http\Controllers\API\RatingController::class, 'store']);
     Route::get('/rating/getByProduct', [\App\Http\Controllers\API\RatingController::class, 'getByProduct']);
+
+    Route::get('/banner/top', [\App\Http\Controllers\API\BannerController::class, 'getTopBanner']);
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
