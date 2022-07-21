@@ -61,6 +61,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::put('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'update']);
     Route::delete('/permission/{id}', [\App\Http\Controllers\API\PermissionController::class, 'delete']);
 
+    Route::post('/permission-assign', [\App\Http\Controllers\API\PermissionController::class, 'assign']);
+    Route::get('/permissionByUser/{id}', [\App\Http\Controllers\API\PermissionController::class, 'permissionByUser']);
+
     Route::get('/customer', [\App\Http\Controllers\API\CustomerController::class, 'index']);
 
     Route::get('/guest', [\App\Http\Controllers\API\GuestController::class, 'index']);

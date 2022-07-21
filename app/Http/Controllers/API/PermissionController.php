@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\PermissionUser;
 use App\ProductCategory;
 use App\Permission;
+use App\ProductColor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +15,8 @@ class PermissionController extends Controller
 
     public function index(Request $request)
     {
-        return $this->sendResponse(Permission::paginate(env('APP_LIMIT_PAGE')),'success');
+        $limit = $request->page = -1 ? 1000000 : env('APP_LIMIT_PAGE');
+        return $this->sendResponse(Permission::paginate($limit),'success');
     }
     public function store(Request $request)
     {
@@ -45,5 +48,29 @@ class PermissionController extends Controller
         $permission->name = trim($request->title);
         $permission->save();
         return $this->sendResponse($permission, 'success');
+    }
+
+    public function assign(Request $request){
+        $user_id = $request->user;
+        $listPermission = explode(",", $request->permissions);
+
+        PermissionUser::where('user_id', $user_id)->delete();
+
+        foreach ($listPermission as $value) {
+            $pu = new PermissionUser();
+            $pu->user_id = $user_id;
+            $pu->permission_id = $value;
+            $pu->save();
+        }
+        return $this->sendResponse('success', 'success');
+    }
+    public function permissionByUser(Request $request,$id){
+        $list = PermissionUser::where('user_id',$id)->get();
+        $arr = [];
+        foreach ($list as $k=>$v){
+            $p = Permission::find($v->permission_id)->name;
+            $arr[] = $p;
+        }
+        return $this->sendResponse($arr, 'success');
     }
 }
