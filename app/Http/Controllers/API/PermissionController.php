@@ -66,10 +66,12 @@ class PermissionController extends Controller
     }
     public function permissionByUser(Request $request,$id){
         $list = PermissionUser::where('user_id',$id)->get();
-        $arr = [];
+        $arr['name'] = [];
+        $arr['id'] = [];
         foreach ($list as $k=>$v){
-            $p = Permission::find($v->permission_id)->name;
-            $arr[] = $p;
+            $p = Permission::find($v->permission_id);
+            array_push( $arr['name'],$p->name);
+            array_push( $arr['id'],$p->id);
         }
         return $this->sendResponse($arr, 'success');
     }
