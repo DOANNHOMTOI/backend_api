@@ -111,3 +111,4 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/banner/top', [\App\Http\Controllers\API\BannerController::class, 'getTopBanner']);
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
+Route::get('send-email', [\App\Http\Controllers\API\OrderController::class, 'sendMail']);

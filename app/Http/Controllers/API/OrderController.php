@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Customer;
 use App\Http\Controllers\Controller;
+use App\Mail\NotifyMail;
 use App\Order;
 use App\Permission;
 use App\Product;
@@ -15,6 +16,7 @@ use App\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -86,7 +88,13 @@ class OrderController extends Controller
                 }
             }
             DB::commit();
+
+            if (!empty($request->email)){
+                self::sendMail($request->email);
+            }
+
             return $this->sendResponse($customer, 'success');
+
             // all good
         } catch (\Exception $e) {
             DB::rollback();
@@ -162,5 +170,10 @@ class OrderController extends Controller
     public function productNews(){
         $data = Product::orderBy('created_at','DESC')->limit(8)->get();
         return $this->sendResponse($data, 'success');
+    }
+    public function sendMail($email){
+
+        Mail::to($email)->send(new NotifyMail());
+
     }
 }
