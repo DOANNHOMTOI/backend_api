@@ -23,7 +23,8 @@ class RatingController extends Controller
         $cluster = new Rating();
         $cluster->product_id = $request->product_id;
         $cluster->product_name = Product::find($request->product_id)->name;
-        $cluster->guest_id = Guest::find($request->guest_id)->name;
+//        $cluster->guest_id = Guest::find($request->guest_id)->name;
+        $cluster->guest_id = $request->guest_id;
         $cluster->rate = $request->rate;
         $cluster->comment = $request->comment;
         $cluster->status = 0;
@@ -49,7 +50,7 @@ class RatingController extends Controller
     }
     public function getByProduct(Request $request){
         $arr = [];
-        $list = Rating::where('product_id',$request->product)->where('status',1)->get();
+        $list = Rating::where('product_id',$request->product)->where('status', 1)->get();
         foreach ($list as $k=>$v){
             $v->guest_info = Guest::find($v->guest_id);
             array_push($arr,$v);
