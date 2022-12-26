@@ -29,7 +29,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // API ADMIN
-Route::group(['middleware' => 'jwt.auth'], function () {
+//Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/validateToken', [UserController::class, 'validateToken']);
 
     Route::post('/changePassWord', [UserController::class, 'changePassWord']);
@@ -91,7 +91,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/partner', [\App\Http\Controllers\API\PartnerController::class, 'store']);
     Route::put('/partner/{id}', [\App\Http\Controllers\API\PartnerController::class, 'update']);
     Route::delete('/partner/{id}', [\App\Http\Controllers\API\PartnerController::class, 'delete']);
-});
+//});
 
 Route::group(['prefix' => 'web'], function () {
     Route::get('/product-category', [\App\Http\Controllers\API\ProductCategoryController::class, 'index']);
