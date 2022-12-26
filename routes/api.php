@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
-Route::post('login', [UserController::class, 'login']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -101,6 +100,7 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/productCare', [\App\Http\Controllers\API\ProductController::class, 'productCare']);
     Route::get('/productDetail/{id}', [\App\Http\Controllers\API\ProductController::class, 'productDetail']);
     Route::post('/order', [\App\Http\Controllers\API\OrderController::class, 'store']);
+    Route::post('/user/forgetPass', [\App\Http\Controllers\API\GuestController::class, 'forgetPass']);
     Route::post('/user/register', [\App\Http\Controllers\API\GuestController::class, 'store']);
     Route::post('/user/login', [\App\Http\Controllers\API\GuestController::class, 'login']);
     Route::get('/checkVoucher/{code}', [\App\Http\Controllers\API\VoucherController::class, 'checkVoucher']);
