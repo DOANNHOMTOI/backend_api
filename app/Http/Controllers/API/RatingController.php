@@ -56,12 +56,12 @@ class RatingController extends Controller
             array_push($arr,$v);
         }
         $isComment = true;
-        if ($request->user != null){
-            $issetRate = Rating::where('product_id',$request->product)->where('guest_id',$request->user)->first();
-            if ($issetRate){
-                $isComment = false;
-            }
-        }
+//        if ($request->user != null){
+//            $issetRate = Rating::where('product_id',$request->product)->where('guest_id',$request->user)->first();
+//            if ($issetRate){
+//                $isComment = false;
+//            }
+//        }
         $data['list'] = $arr;
         $data['is_comment'] = $isComment;
         return $this->sendResponse($data, 'success');
