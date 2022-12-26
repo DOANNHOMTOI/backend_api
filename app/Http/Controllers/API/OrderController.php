@@ -88,6 +88,14 @@ class OrderController extends Controller
                     $pr->buyer = $pr->buyer + $value->qty;
                     $pr->save();
                 }
+                // giảm số lượng voucher đã dùng
+                if (!empty($request->voucher_id)){
+                    $voucher = Voucher::find($request->voucher_id);
+                    if (!empty($voucher)){
+                        $voucher->qty = $voucher->qty - 1;
+                        $voucher->save();
+                    }
+                }
             }
             DB::commit();
 

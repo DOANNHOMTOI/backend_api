@@ -37,6 +37,7 @@ class VoucherController extends Controller
         $cluster->start_time = $request->start_time;
         $cluster->end_time = $request->end_time;
         $cluster->code = trim($request->code);
+        $cluster->qty = $request->qty;
         $cluster->percent_value = (int)$request->percent_value;
         $cluster->is_active = 1;
         $cluster->save();
@@ -51,7 +52,7 @@ class VoucherController extends Controller
         return $this->sendResponse($id, 'success');
     }
     public function checkVoucher($code){
-        return $this->sendResponse(Voucher::where('code',$code)->first(), 'success');
+        return $this->sendResponse(Voucher::where('code',$code)->where('qty','>',0)->first(), 'success');
     }
     public function update(Request $request,$id){
         $cluster = Voucher::find($id);
@@ -59,8 +60,12 @@ class VoucherController extends Controller
         $cluster->start_time = $request->start_time;
         $cluster->end_time = $request->end_time;
         $cluster->percent_value = (int)$request->percent_value;
+        $cluster->qty = $request->qty;
         $cluster->is_active = $request->is_active;
         $cluster->save();
         return $this->sendResponse($cluster, 'success');
+    }
+    public function getVoucherRandom(){
+        return $this->sendResponse(Voucher::where('qty','>',0)->orderBy('qty','DESC')->first(), 'success');
     }
 }

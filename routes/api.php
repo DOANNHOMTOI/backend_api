@@ -104,6 +104,7 @@ Route::group(['prefix' => 'web'], function () {
     Route::post('/user/register', [\App\Http\Controllers\API\GuestController::class, 'store']);
     Route::post('/user/login', [\App\Http\Controllers\API\GuestController::class, 'login']);
     Route::get('/checkVoucher/{code}', [\App\Http\Controllers\API\VoucherController::class, 'checkVoucher']);
+    Route::get('/getVoucherRandom', [\App\Http\Controllers\API\VoucherController::class, 'getVoucherRandom']);
 
     Route::post('/rating/create', [\App\Http\Controllers\API\RatingController::class, 'store']);
     Route::get('/rating/getByProduct', [\App\Http\Controllers\API\RatingController::class, 'getByProduct']);
