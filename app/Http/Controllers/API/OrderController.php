@@ -90,7 +90,7 @@ class OrderController extends Controller
             DB::commit();
 
             if (!empty($request->email)){
-                self::sendMail($request->email);
+                self::sendMail($request->email, $request->total_price);
             }
 
             return $this->sendResponse($customer, 'success');
@@ -171,9 +171,9 @@ class OrderController extends Controller
         $data = Product::orderBy('created_at','DESC')->limit(8)->get();
         return $this->sendResponse($data, 'success');
     }
-    public function sendMail($email){
+    public function sendMail($email, $total){
 
-        Mail::to($email)->send(new NotifyMail());
+        Mail::to($email)->send(new NotifyMail($total));
 
     }
 }

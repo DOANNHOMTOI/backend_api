@@ -16,9 +16,10 @@ class NotifyMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    protected $total;
+    public function __construct($total)
     {
-        //
+        $this->total = $total;
     }
 
     /**
@@ -28,6 +29,7 @@ class NotifyMail extends Mailable
      */
     public function build()
     {
-        return $this->view('demoMail');
+
+        return $this->view('demoMail',compact(['total' => $this->total]));
     }
 }
