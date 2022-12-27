@@ -23,13 +23,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
+Route::post('login', [UserController::class, 'login']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 // API ADMIN
-//Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/validateToken', [UserController::class, 'validateToken']);
 
     Route::post('/changePassWord', [UserController::class, 'changePassWord']);
@@ -91,7 +91,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::post('/partner', [\App\Http\Controllers\API\PartnerController::class, 'store']);
     Route::put('/partner/{id}', [\App\Http\Controllers\API\PartnerController::class, 'update']);
     Route::delete('/partner/{id}', [\App\Http\Controllers\API\PartnerController::class, 'delete']);
-//});
 
 Route::group(['prefix' => 'web'], function () {
     Route::get('/product-category', [\App\Http\Controllers\API\ProductCategoryController::class, 'index']);
@@ -100,11 +99,10 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/productCare', [\App\Http\Controllers\API\ProductController::class, 'productCare']);
     Route::get('/productDetail/{id}', [\App\Http\Controllers\API\ProductController::class, 'productDetail']);
     Route::post('/order', [\App\Http\Controllers\API\OrderController::class, 'store']);
-    Route::post('/user/forgetPass', [\App\Http\Controllers\API\GuestController::class, 'forgetPass']);
+    Route::any("callback-momo", [\App\Http\Controllers\API\OrderController::class, "callback"])->name("callback.momo");
     Route::post('/user/register', [\App\Http\Controllers\API\GuestController::class, 'store']);
     Route::post('/user/login', [\App\Http\Controllers\API\GuestController::class, 'login']);
     Route::get('/checkVoucher/{code}', [\App\Http\Controllers\API\VoucherController::class, 'checkVoucher']);
-    Route::get('/getVoucherRandom', [\App\Http\Controllers\API\VoucherController::class, 'getVoucherRandom']);
 
     Route::post('/rating/create', [\App\Http\Controllers\API\RatingController::class, 'store']);
     Route::get('/rating/getByProduct', [\App\Http\Controllers\API\RatingController::class, 'getByProduct']);
@@ -112,4 +110,3 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/banner/top', [\App\Http\Controllers\API\BannerController::class, 'getTopBanner']);
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
-Route::get('send-email', [\App\Http\Controllers\API\OrderController::class, 'sendMail']);

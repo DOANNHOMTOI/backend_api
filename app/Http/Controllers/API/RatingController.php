@@ -23,7 +23,6 @@ class RatingController extends Controller
         $cluster = new Rating();
         $cluster->product_id = $request->product_id;
         $cluster->product_name = Product::find($request->product_id)->name;
-//        $cluster->guest_id = Guest::find($request->guest_id)->name;
         $cluster->guest_id = $request->guest_id;
         $cluster->rate = $request->rate;
         $cluster->comment = $request->comment;
