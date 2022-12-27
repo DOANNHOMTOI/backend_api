@@ -99,7 +99,7 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/productCare', [\App\Http\Controllers\API\ProductController::class, 'productCare']);
     Route::get('/productDetail/{id}', [\App\Http\Controllers\API\ProductController::class, 'productDetail']);
     Route::post('/order', [\App\Http\Controllers\API\OrderController::class, 'store']);
-    Route::any("callback-momo", [\App\Http\Controllers\API\OrderController::class, "callback"])->name("callback.momo");
+    Route::post("callback-momo", [\App\Http\Controllers\API\OrderController::class, "callback"])->name("callback.momo");
     Route::post('/user/register', [\App\Http\Controllers\API\GuestController::class, 'store']);
     Route::post('/user/login', [\App\Http\Controllers\API\GuestController::class, 'login']);
     Route::get('/checkVoucher/{code}', [\App\Http\Controllers\API\VoucherController::class, 'checkVoucher']);

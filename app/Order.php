@@ -28,7 +28,7 @@ class Order extends Model
 
     //MOMO
     const END_POINT = "https://test-payment.momo.vn/v2/gateway/api/create";
-    const CALLBACK_MOMO = "http://backend_api.test/callback-momo";
-    const IPN_URL = "http://backend_api.test/callback-momo";
+    const CALLBACK_MOMO = "http://localhost:8080/callback-momo";
+    const IPN_URL = "http://localhost:8080/callback-momo";
 
 }
