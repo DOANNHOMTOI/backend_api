@@ -65,6 +65,7 @@ class OrderController extends Controller
                 $storeOrder->payment_type = $request->payment_type;
                 // $storeOrder->date_storeOrder = time();
                 $storeOrder->voucher_id = $request->voucher_id;
+                $storeOrder->guest_id = $request->guest_id;
                 $storeOrder->status = Order::CANCEL;
                 $storeOrder->note = $request->note;
                 $storeOrder->save();
@@ -256,5 +257,18 @@ class OrderController extends Controller
         //close connection
         curl_close($ch);
         return $result;
+    }
+
+    public function orderHistory(Request $request){
+        $validator = Validator::make($request->all(), [
+            'guest_id' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $data = Order::where('guest_id',$request->guest_id)->get();
+        return $this->sendResponse($data, 'success');
     }
 }

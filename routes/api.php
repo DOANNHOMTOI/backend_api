@@ -110,3 +110,4 @@ Route::group(['prefix' => 'web'], function () {
     Route::get('/banner/top', [\App\Http\Controllers\API\BannerController::class, 'getTopBanner']);
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
+Route::get('/orderHistory', [\App\Http\Controllers\API\OrderController::class, 'orderHistory']);
