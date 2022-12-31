@@ -101,6 +101,7 @@ Route::group(['prefix' => 'web'], function () {
     Route::post('/order', [\App\Http\Controllers\API\OrderController::class, 'store']);
     Route::post("callback-momo", [\App\Http\Controllers\API\OrderController::class, "callback"])->name("callback.momo");
     Route::post('/user/register', [\App\Http\Controllers\API\GuestController::class, 'store']);
+    Route::post('/user/forgetPass', [\App\Http\Controllers\API\GuestController::class, 'forgetPass']);
     Route::post('/user/login', [\App\Http\Controllers\API\GuestController::class, 'login']);
     Route::get('/checkVoucher/{code}', [\App\Http\Controllers\API\VoucherController::class, 'checkVoucher']);
 

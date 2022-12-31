@@ -20,9 +20,11 @@ class GuestController extends Controller
     }
     public function store(Request $request)
     {
-        $guest = Guest::where('phone',$request->phone)->first();
-        if ($guest != null){
-            return $this->sendError('Số điện thoại đã đăng ký tài khoản khác','Số điện thoại đã đăng ký tài khoản khác');
+        $guestEmail = Guest::where('phone',$request->phone)->first();
+        $guestEmail = Guest::where('email',$request->email)->first();
+
+        if ($guestEmail != null ||$guestEmail !=null ){
+            return $this->sendError('Số điện thoại hoặc email đã đăng ký tài khoản khác','Số điện thoại đã đăng ký tài khoản khác');
         }
         $guest = new Guest();
         $guest->name = trim($request->name);
