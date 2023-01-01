@@ -77,6 +77,9 @@ class OrderController extends Controller
                         $pr->save();
                     }
                 }
+                 $updatevoucher = Voucher::find($request->voucher_id);
+                $updatevoucher->qty =  $updatevoucher->qty - 1;
+                $updatevoucher->save();
                 $order = $storeOrder;
             }
             DB::commit();
