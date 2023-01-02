@@ -285,6 +285,7 @@ class OrderController extends Controller
         }
 
         $data = Order::where('guest_id', $request->guest_id)->get();
+    
         return $this->sendResponse($data, 'success');
     }
 }
