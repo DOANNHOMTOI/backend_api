@@ -74,7 +74,7 @@ class GuestController extends Controller
 
     public function updateGuest(Request $request)
     {
-        $guest = Guest::where('email', $request->email)->first();
+        $guest = Guest::where('phone', $request->phone)->first();
 
         if (empty($guest)) {
             return $this->sendError(null, 'Không tìm thấy tài khoản nào');
@@ -86,4 +86,11 @@ class GuestController extends Controller
         $guest->save();
         return $this->sendResponse($guest, 'success');
     }
+
+    public function getGuest(Request $request){
+        $guest = Guest::where('phone', $request->phone)->first();
+        return $this->sendResponse($guest, 'success');
+
+    }
+
 }
