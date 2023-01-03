@@ -112,4 +112,5 @@ Route::group(['prefix' => 'web'], function () {
 });
 Route::post('/changePassWord', [UserController::class, 'changePassWord']);
 Route::get('/orderHistory', [\App\Http\Controllers\API\OrderController::class, 'orderHistory']);
-Route::post('/update', [GuestController::class, 'updateGuest']);
+Route::post('/update', [\App\Http\Controllers\API\GuestController::class, 'updateGuest']);
+Route::post('/getinfo', [\App\Http\Controllers\API\GuestController::class, 'getGuest']);
