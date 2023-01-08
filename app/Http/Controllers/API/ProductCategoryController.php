@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
+use App\Product;
 use App\Http\Controllers\Controller;
 use App\ProductCategory;
 use Illuminate\Http\Request;
@@ -12,7 +12,12 @@ class ProductCategoryController extends Controller
 
     public function index(Request $request)
     {
-        $limit = $request->page = -1 ? 1000000 : env('APP_LIMIT_PAGE');
+        if($request ->page == -1){
+            $limit =   1000000 ;
+        }
+        else{
+            $limit = env('APP_LIMIT_PAGE');
+        }
         return $this->sendResponse(ProductCategory::orderBy('position','ASC')->paginate($limit),'success');
     }
     public function store(Request $request)
@@ -36,6 +41,7 @@ class ProductCategoryController extends Controller
     }
     public function delete($id){
         ProductCategory::find($id)->delete();
+        Product::where('category_id', $id)->delete();
         return $this->sendResponse($id, 'success');
     }
     public function update(Request $request,$id){

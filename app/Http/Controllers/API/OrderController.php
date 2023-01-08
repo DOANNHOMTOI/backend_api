@@ -63,23 +63,24 @@ class OrderController extends Controller
                 $storeOrder->total_price = $request->total_price;
                 $storeOrder->shipment_type = $request->shipment_type;
                 $storeOrder->payment_type = $request->payment_type;
-                // $storeOrder->date_storeOrder = time();
                 $storeOrder->voucher_id = $request->voucher_id;
-                $storeOrder->guest_id = $request->guest_id;
                 $storeOrder->status = Order::CANCEL;
                 $storeOrder->note = $request->note;
                 $storeOrder->save();
                 $result = json_decode($request->products, true);
-                    foreach ($result as $value){
+                foreach ($result as $value) {
                     $pr = Product::find($value['product']['id']);
-                    if($pr) {
+                    if ($pr) {
                         $pr->qty = $pr->qty - $value['qty'];
+                        $pr->buyer = $pr->buyer + $value['qty'];
                         $pr->save();
                     }
                 }
-                 $updatevoucher = Voucher::find($request->voucher_id);
-                $updatevoucher->qty =  $updatevoucher->qty - 1;
-                $updatevoucher->save();
+                if ($request->voucher_id !== "null") {
+                    $updatevoucher = Voucher::find($request->voucher_id);
+                    $updatevoucher->qty =  $updatevoucher->qty - 1;
+                    $updatevoucher->save();
+                }
                 $order = $storeOrder;
             }
             DB::commit();
@@ -163,8 +164,6 @@ class OrderController extends Controller
             $jsonResult = json_decode($result, true); // decode json
             return $this->sendResponse($jsonResult, true);
         }
-
-
     }
 
     public function detail($id)
@@ -285,7 +284,7 @@ class OrderController extends Controller
         }
 
         $data = Order::where('guest_id', $request->guest_id)->get();
-    
+
         return $this->sendResponse($data, 'success');
     }
 }
