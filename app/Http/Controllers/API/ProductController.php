@@ -51,11 +51,7 @@ class ProductController extends Controller
         if ($issetSKU != null) {
             return $this->sendError('SKU đã tổn tại', 'error', 200);
         }
-        $issetName = Product::where('name', $request->name)->first();
-        if ($issetName != null) {
-            return $this->sendError('Tên sản phẩm đã tổn tại', 'error', 200);
-        }
-
+   
         DB::beginTransaction();
         try {
             $product = new Product();
