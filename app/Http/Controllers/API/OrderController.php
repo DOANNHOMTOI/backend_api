@@ -162,6 +162,7 @@ class OrderController extends Controller
             );
             $result = $this->execPostRequest($endpoint, json_encode($data));
             $jsonResult = json_decode($result, true); // decode json
+            
             return $this->sendResponse($jsonResult, true);
         }
     }
