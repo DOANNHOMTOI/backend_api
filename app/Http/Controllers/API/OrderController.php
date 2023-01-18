@@ -72,9 +72,11 @@ class OrderController extends Controller
                     $pr = Product::find($value['product']['id']);
                     if ($pr) {
                         $pr->qty = $pr->qty - $value['qty'];
+                        $pr->buyer = $pr->buyer + $value['qty'];
                         $pr->save();
                     }
                 }
+
                 if ($request->voucher_id !=="null") {
                     $updatevoucher = Voucher::find($request->voucher_id);
                     $updatevoucher->qty = $updatevoucher->qty - 1;
@@ -161,10 +163,9 @@ class OrderController extends Controller
             );
             $result = $this->execPostRequest($endpoint, json_encode($data));
             $jsonResult = json_decode($result, true); // decode json
+            
             return $this->sendResponse($jsonResult, true);
         }
-
-
     }
 
     public function detail($id)
