@@ -57,7 +57,7 @@ class OrderController extends Controller
 
             if ($saveCustomer) {
                 $storeOrder = new Order();
-                $storeOrder->sku = 'TJ' . time();
+                $storeOrder->sku = 'TJ'.time();
                 $storeOrder->customer_id = $customer->id;
                 $storeOrder->products = json_encode($request->products);
                 $storeOrder->total_price = $request->total_price;
@@ -76,9 +76,10 @@ class OrderController extends Controller
                         $pr->save();
                     }
                 }
-                if ($request->voucher_id !== "null") {
+
+                if ($request->voucher_id !=="null") {
                     $updatevoucher = Voucher::find($request->voucher_id);
-                    $updatevoucher->qty =  $updatevoucher->qty - 1;
+                    $updatevoucher->qty = $updatevoucher->qty - 1;
                     $updatevoucher->save();
                 }
                 $order = $storeOrder;
